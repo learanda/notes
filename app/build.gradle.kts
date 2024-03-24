@@ -37,6 +37,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -45,6 +46,9 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/source/navigation-args")
     }
 }
 
@@ -65,7 +69,7 @@ dependencies {
 
     implementation(libs.androidx.navigation.ui.ktx)
 
-    implementation(libs.android.arch.lifecycle)
+    //implementation(libs.android.arch.lifecycle)
 
     implementation(libs.squareup.retrofit2.retrofit)
     implementation(libs.squareup.retrofit2.converterGson)
@@ -75,11 +79,15 @@ dependencies {
 
     implementation(libs.androidx.room)
     implementation(libs.androidx.legacy.supportV4)
+    implementation(libs.material)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.activity)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
     implementation(libs.google.dagger)
-    implementation(libs.google.dagger.android.support)
+    //implementation(libs.google.dagger.android.support)
     kapt(libs.google.dagger.compiler)
     kapt(libs.google.dagger.android.processor)
 
