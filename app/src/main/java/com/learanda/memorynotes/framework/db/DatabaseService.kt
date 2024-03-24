@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [NoteEntity::class], version = 1)
 abstract class DatabaseService : RoomDatabase() {
+
     companion object {
 
         private const val DATABASE_NAME = "note.db"
@@ -23,5 +24,5 @@ abstract class DatabaseService : RoomDatabase() {
             (instance ?: create(context)).also { instance = it }
     }
 
-    abstract class noteDao() : NoteDao
+    abstract fun noteDao(): NoteDao
 }
