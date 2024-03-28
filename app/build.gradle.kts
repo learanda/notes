@@ -69,7 +69,7 @@ dependencies {
 
     implementation(libs.androidx.navigation.ui.ktx)
 
-    //implementation(libs.android.arch.lifecycle)
+    implementation(libs.android.arch.lifecycle)
 
     implementation(libs.squareup.retrofit2.retrofit)
     implementation(libs.squareup.retrofit2.converterGson)
