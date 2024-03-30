@@ -15,7 +15,7 @@ class NotesListAdapter(var notes: ArrayList<Note>): RecyclerView.Adapter<NotesLi
 
     fun updatesNotes(newNotes: List<Note>) {
         notes.clear()
-        notes.addAll(notes)
+        notes.addAll(newNotes)
         notifyDataSetChanged()
     }
 
