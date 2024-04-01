@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.learanda.memorynotes.R
 import com.learanda.memorynotes.framework.ListViewModel
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), ListAction {
 
     private lateinit var addNote: View
     private lateinit var notesListView: RecyclerView
     private lateinit var loadingView: ProgressBar
-    private val notesListAdapter = NotesListAdapter(arrayListOf())
+    private val notesListAdapter = NotesListAdapter(arrayListOf(), this)
     private lateinit var viewModel: ListViewModel
 
     override fun onCreateView(
@@ -63,5 +63,9 @@ class ListFragment : Fragment() {
     private fun goToNoteDetails(id: Long = 0L) {
         val action = ListFragmentDirections.actionGoToNote().setNoteId(id)
         findNavController(notesListView).navigate(action)
+    }
+
+    override fun onClick(id: Long) {
+        goToNoteDetails(id)
     }
 }
