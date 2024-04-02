@@ -34,6 +34,7 @@ class NotesListAdapter(var notes: ArrayList<Note>, val actions: ListAction): Rec
         private val noteTitle = view.findViewById<TextView>(R.id.title)
         private val noteContent = view.findViewById<TextView>(R.id.content)
         private val noteDate = view.findViewById<TextView>(R.id.date)
+        private val noteWords = view.findViewById<TextView>(R.id.wordCount)
         fun bind(note: Note) {
             noteTitle.text = note.title
             noteContent.text = note.content
@@ -43,6 +44,8 @@ class NotesListAdapter(var notes: ArrayList<Note>, val actions: ListAction): Rec
             noteDate.text = "Last updated: ${sdf.format(resultDate)}"
 
             layout.setOnClickListener { actions.onClick(note.id) }
+
+            noteWords.text = "Words: ${note.wordCount}"
         }
     }
 }
