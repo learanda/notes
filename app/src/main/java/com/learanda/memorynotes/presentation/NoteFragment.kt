@@ -20,6 +20,7 @@ import com.learanda.memorynotes.framework.NoteViewModel
 
 class NoteFragment : Fragment() {
 
+    private var noteId = 0L
     private lateinit var viewModel: NoteViewModel
     private lateinit var titleView: TextView
     private lateinit var contentView: TextView
@@ -42,6 +43,14 @@ class NoteFragment : Fragment() {
         checkButton = requireView().findViewById(R.id.checkButton)
 
         viewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+
+        arguments?.let {
+            noteId = NoteFragmentArgs.fromBundle(it).noteId
+        }
+
+        if(noteId != 0L) {
+            viewModel.getNote(noteId)
+        }
 
         checkButton.setOnClickListener {
             if (titleView.text.toString() != "" || contentView.text.toString() != "") {
@@ -68,6 +77,14 @@ class NoteFragment : Fragment() {
                 Navigation.findNavController(titleView).popBackStack()
             } else {
                 Toast.makeText(context, "Something went wrong, please try again", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.currentNote.observe(viewLifecycleOwner, Observer { note ->
+            note?.let {
+                currentNote = it
+                titleView.setText(it.title, TextView.BufferType.EDITABLE)
+                contentView.setText(it.content, TextView.BufferType.EDITABLE)
             }
         })
     }
