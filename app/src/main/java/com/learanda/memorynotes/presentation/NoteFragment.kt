@@ -1,15 +1,20 @@
 package com.learanda.memorynotes.presentation
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -27,6 +32,11 @@ class NoteFragment : Fragment() {
     private lateinit var checkButton: FloatingActionButton
     private var currentNote = Note("", "", 0L, 0L)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +46,6 @@ class NoteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         // Inicializar las vistas después de que la vista se haya inflado
         titleView = requireView().findViewById(R.id.titleView)
         contentView = requireView().findViewById(R.id.contentView)
@@ -92,5 +101,29 @@ class NoteFragment : Fragment() {
     private fun hideKeyboard() {
         val imn: InputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imn.hideSoftInputFromWindow(titleView.windowToken, 0)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.note_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.deleteNote -> {
+                if(context != null && noteId != 0L) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Delete note")
+                        .setMessage("Are you sure you want to delete this note?")
+                        .setPositiveButton("Yes") { dialogInterface, i ->
+                            viewModel.deleteNote(currentNote)
+                        }
+                        .setNegativeButton("No") { dialogInterface, i -> {} }
+                        .create()
+                        .show()
+                }
+            }
+        }
+        return true
     }
 }
